@@ -38,7 +38,3 @@ async def rmmini_learn():
 async def rmmini_send():
     # send_data(ir_packet)
     pass
-
-def rmmini_getdevice():
-    device = rmmini.gendevice(devtype, host, mac)
-    return device.auth()
