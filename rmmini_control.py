@@ -1,0 +1,3 @@
+import broadlink
+
+class Rmmini:

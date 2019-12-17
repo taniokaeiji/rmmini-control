@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<h1>登録済みRMminiリスト</h1>
+<hr>
+{% for dev in devices %}
+<p>
+<a href="/rmmini/{{ dev.id }}/command_list" class="btn btn-primary">{{ dev.name }}</a>
+</p>
+<hr>
+{% endfor %}
+{% endblock %}
