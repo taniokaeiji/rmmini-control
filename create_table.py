@@ -4,7 +4,9 @@ import os
 
 if __name__ == "__main__":
     path = SQLITE3_NAME
-    if not os.path.isfile(path):
+    if not os.path.isfile(path) or \
+        db.engine.dialect.has_table(db.engine, 'devices') or \
+        db.engine.dialect.has_table(db.engine, 'commands'):
         # テーブルを作成する
         Base.metadata.create_all(db.engine)
 
