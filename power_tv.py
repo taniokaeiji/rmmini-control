@@ -14,6 +14,7 @@ devtype = r['devtype']
 host = r['host']
 mac = bytearray.fromhex(r['mac_address'])
 dev = broadlink.gendevice(devtype, (host, 80), mac)
+dev.auth()
 
 # コマンドを投げる
 c.execute('SELECT ir_command FROM commands WHERE id = 1 and device_id = 1')
@@ -21,5 +22,10 @@ r = c.fetchone()
 data = bytearray.fromhex(r['ir_command'])
 dev.send_data(data)
 #print(data)
+c.execute('SELECT ir_command FROM commands WHERE id = 2 and device_id = 1')
+r = c.fetchone()
+data = bytearray.fromhex(r['ir_command'])
+dev.send_data(data)
+dev.send_data(data)
 
 c.close()
