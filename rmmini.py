@@ -4,7 +4,7 @@ def get_device(devtype, host, mac):
     dev = broadlink.gendevice(devtype, (host, 80), mac)
     if dev.auth():
         return dev
-    else
+    else:
         return False
 
 #### from broadlink_cli ####
