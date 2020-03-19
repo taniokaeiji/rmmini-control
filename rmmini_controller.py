@@ -25,8 +25,11 @@ async def rmmini_discovery():
 
 
 @app.get("/rmmini/{rmmini_id}/command_list")
-async def rmmini_command_list():
-    print()
+async def rmmini_command_list(rmmini_id: int, request: Request):
+    commands = db.session.query(Command).filter(Command.device_id == rmmini_id).all()
+    db.session.close()
+
+    return templates.TemplateResponse('commands.html', {'commands': commands, 'request': request})
 
 @app.get("/rmmini/{rmmini_id}/learn")
 async def rmmini_learn():

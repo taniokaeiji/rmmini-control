@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<h1>RMmini 登録済みコマンドリスト</h1>
+<hr>
+{% for command in commands %}
+<p>
+<a href="/rmmini/{{ command.device_id }}/{{ command.id}}/send" class="btn btn-primary">{{ command.target_name }}: {{ command.function_name }}</a>
+</p>
+<hr>
+{% endfor %}
+{% endblock %}
