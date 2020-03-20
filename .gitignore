@@ -1,0 +1,7 @@
+venv/
+bin/**
+lib/**
+pyvenv.cfg
+__pycache__/**
+.vscode/**
+db.sqlite3
