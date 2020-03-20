@@ -4,6 +4,7 @@ from starlette.requests import Request
 import broadlink
 import db
 from models import Rmmini, Command
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
 device = None
@@ -48,5 +49,6 @@ async def rmmini_send(request: Request, rmmini_id: int, func_id: int):
             Command.id == func_id).value(Command.ir_command)
         db.session.close()
         device.send_data(bytearray.fromhex(ir_command))
+        return RedirectResponse('/rmmini/' + str(rmmini_id) + '/command_list')
     else:
         return False
