@@ -37,18 +37,40 @@ async def rmmini_learn():
     # check_data()
     pass
 
+# RMminiにIRコマンドを送信する
 @app.get("/rmmini/{rmmini_id}/{func_id}/send")
 async def rmmini_send(request: Request, rmmini_id: int, func_id: int):
-    rmmini_info = db.session.query(Rmmini).filter(Rmmini.id == rmmini_id).first()
-    # DBのデータからホスト情報を作成
-    #mac = bytearray.fromhex(rmmini_info.mac_address)
-    device = broadlink.gendevice(rmmini_info.devtype, (rmmini_info.host, 80), bytearray.fromhex(rmmini_info.mac_address))
-    if device.auth():
-        ir_command = db.session.query(Command.ir_command).filter(
-            Command.device_id == rmmini_id,
-            Command.id == func_id).value(Command.ir_command)
-        db.session.close()
-        device.send_data(bytearray.fromhex(ir_command))
-        return RedirectResponse('/rmmini/' + str(rmmini_id) + '/command_list')
+    device = get_rmmini_info(rmmini_id)
+    if device:
+        ir_command = get_rmmini_command(rmmini_id, func_id)
+        if ir_command:
+            device.send_data(bytearray.fromhex(ir_command))
+            return RedirectResponse('/rmmini/' + str(rmmini_id) + '/command_list')
     else:
         return False
+
+# RMminiのデバイス情報をDBから取得する
+def get_rmmini_info(rmmini_id):
+    # DBのデータからホスト情報を作成
+    rmmini_info = db.session.query(Rmmini).filter(
+        Rmmini.id == rmmini_id).first()
+    device = broadlink.gendevice(
+        rmmini_info.devtype,
+        (rmmini_info.host, 80),
+        bytearray.fromhex(rmmini_info.mac_address))
+    db.session.close()
+    if device.auth():
+        return device
+    else:
+        return False
+
+# 赤外線コマンドをDBから取得する
+def get_rmmini_command(rmmini_id, func_id):
+    ir_command = db.session.query(Command.ir_command).filter(
+        Command.device_id == rmmini_id,
+        Command.id == func_id).value(Command.ir_command)
+    db.session.close()
+    if ir_command:
+        return ir_command
+    else:
+        return None
