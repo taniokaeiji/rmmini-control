@@ -5,7 +5,7 @@ cryptography==3.2
 fastapi==0.52.0
 h11==0.9.0
 httptools==0.1.1
-Jinja2==2.11.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pycparser==2.20
 PyCRC==1.21
