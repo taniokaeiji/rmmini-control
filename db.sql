@@ -19,5 +19,5 @@ CREATE TABLE devices (
 	mac_address VARCHAR(256),
 	PRIMARY KEY (id)
 );
-INSERT INTO devices VALUES(1,'リビング',10039,'192.168.10.149','69c96f34ea34');
+INSERT INTO devices VALUES(1,'リビング',10039,'192.168.10.61','69c96f34ea34');
 COMMIT;
